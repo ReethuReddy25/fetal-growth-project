@@ -1,8 +1,9 @@
 from fastapi import FastAPI
-#from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from app.routers import users, admin, predict
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -10,7 +11,7 @@ logging.getLogger("who").setLevel(logging.INFO)
 
 app = FastAPI(title="MidTrimester Growth")
 
-# ✅ CORS configuration
+# CORS configuration
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -25,8 +26,10 @@ app.include_router(users.router, prefix="/api/users", tags=["users"])
 app.include_router(admin.router, prefix="/api/admin", tags=["admin"])
 app.include_router(predict.router, prefix="/api/predict", tags=["predict"])
 
-#app.mount("/static", StaticFiles(directory="app/static"), name="static")
+# Serve frontend files
+app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
 
+# Homepage → login page
 @app.get("/")
-def index():
-    return {"msg": "MidTrimester Growth API running. Visit /docs for API docs."}
+def home():
+    return FileResponse("frontend/login.html")
