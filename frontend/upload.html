@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fetal Growth Detection</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="topbar">
+    <h2 class="center-title">Fetal Growth Detection</h2>
+    <button id="logoutBtn" class="btn btn-danger">Logout</button>
+  </header>
+
+  <!-- Main Content -->
+  <main class="page-center">
+    <div class="card container">
+
+      <h3 class="center-text">Upload Images (Bulk) & Run Detection</h3>
+      <p class="muted center-text">
+        Enter gestational age and upload ultrasound images (JPG / PNG).
+      </p>
+
+      <!-- Gestational Age -->
+      <label>
+        Gestational Age (weeks)
+        <input
+          type="number"
+          id="gaWeeks"
+          placeholder="e.g., 28"
+          step="0.1"
+          min="0"
+        />
+      </label>
+
+      <!-- Drop Area -->
+      <div id="drop-area">
+        <input
+          type="file"
+          id="fileInput"
+          multiple
+          accept="image/png, image/jpeg"
+          hidden
+        />
+        <p>Click or drop images here</p>
+      </div>
+
+      <!-- Preview -->
+      <div id="gallery"></div>
+
+      <!-- Buttons -->
+      <div class="form-row">
+        <button id="runBtn" class="btn">Run Detection</button>
+        <button id="resetBtn" class="btn btn-ghost">Reset</button>
+        <a href="results.html" class="secondary-link">Go to Results</a>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="js/upload.js"></script>
+</body>
+</html>

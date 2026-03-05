@@ -1,0 +1,17 @@
+fastapi
+uvicorn[standard]
+jinja2
+pydantic
+python-multipart
+sqlalchemy
+alembic
+passlib[bcrypt]
+pyjwt
+Pillow
+torch
+torchvision
+numpy
+scipy
+python-dotenv
+opencv-python-headless
+gunicorn

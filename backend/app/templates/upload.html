@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"/><title>Upload Study</title></head>
+<body>
+  <h2>Upload Study (Doctor-only)</h2>
+  <form id="uploadForm" enctype="multipart/form-data">
+    <label>Patient name: <input name="patient_name"/></label><br/>
+    <label>GA (weeks): <input name="ga_weeks" type="number" step="0.1" required/></label><br/>
+    <label>Images (select up to 6): <input name="files" id="files" type="file" multiple accept=".png,.jpg,.jpeg,.dcm" /></label><br/>
+    <button type="submit">Submit</button>
+  </form>
+  <div id="result"></div>
+
+<script>
+async function submitForm(e){
+  e.preventDefault();
+  const token = localStorage.getItem('access_token');
+  if(!token) { alert('Login first'); window.location='/login.html'; return; }
+  const form = document.getElementById('uploadForm');
+  const fd = new FormData(form);
+  const files = document.getElementById('files').files;
+  for (let f of files) fd.append('files', f);
+  const res = await fetch('/api/predict/run', { method:'POST', headers: {'Authorization': 'Bearer ' + token}, body: fd });
+  if(!res.ok) {
+    const t = await res.text(); alert('Error: ' + t); return;
+  }
+  const j = await res.json();
+  document.getElementById('result').innerText = JSON.stringify(j, null, 2);
+}
+document.getElementById('uploadForm').addEventListener('submit', submitForm);
+</script>
+</body>
+</html>

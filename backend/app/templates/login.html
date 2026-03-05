@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Doctor Login</title>
+</head>
+<body>
+  <h2>Doctor Login</h2>
+  <form id="loginForm">
+    <label>Email: <input type="email" id="email" required /></label><br/>
+    <label>Password: <input type="password" id="password" required /></label><br/>
+    <button type="submit">Login</button>
+  </form>
+
+  <script>
+  async function login(e){
+    e.preventDefault();
+    const data = new URLSearchParams();
+    data.append('username', document.getElementById('email').value);
+    data.append('password', document.getElementById('password').value);
+    const res = await fetch('/api/users/login', {method:'POST', body: data});
+    if(res.ok){
+      const j = await res.json();
+      localStorage.setItem('access_token', j.access_token);
+      window.location = '/upload.html';
+    } else {
+      alert('Login failed');
+    }
+  }
+  document.getElementById('loginForm').addEventListener('submit', login);
+  </script>
+</body>
+</html>

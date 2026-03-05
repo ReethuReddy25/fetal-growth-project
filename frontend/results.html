@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Fetal Growth — Latest Result</title>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- Topbar (UNCHANGED) -->
+    <header class="topbar">
+        <div class="container topbar-inner">
+            <div class="brand">Fetal Growth Detection</div>
+
+            <div>
+                <button id="goUpload" class="btn btn-ghost">
+                    Upload more
+                </button>
+
+                <button id="logoutBtn" class="btn btn-danger">
+                    Logout
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content (UNCHANGED STRUCTURE) -->
+    <main class="page-center">
+
+    <div>
+
+        <div id="noResult" class="card">
+            <h3>No result found</h3>
+            <p class="muted">
+                Run a detection from
+                <a href="upload.html">Upload</a>
+                to view the latest prediction here.
+            </p>
+        </div>
+
+        <div id="resultsContainer"
+             class="grid-cards results-center-only">
+        </div>
+
+    </div>
+
+</main>
+
+
+    <!-- Scripts (UNCHANGED) -->
+    <script src="js/auth.js"></script>
+    <script src="js/results.js"></script>
+
+    <script>
+        document
+            .getElementById("goUpload")
+            .addEventListener("click", () => {
+                window.location.href = "upload.html";
+            });
+    </script>
+
+</body>
+</html>
