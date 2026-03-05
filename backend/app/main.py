@@ -1,17 +1,17 @@
 from fastapi import FastAPI
-from fastapi.templating import Jinja2Templates
-from app.routers import users, admin, predict
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+from app.routers import users, admin, predict
+import os
 import logging
 
 logging.basicConfig(level=logging.INFO)
-logging.getLogger("who").setLevel(logging.INFO)
 
 app = FastAPI(title="MidTrimester Growth")
 
-# CORS configuration
+# ---------------- CORS ----------------
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -20,16 +20,30 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ---------------- Templates ----------------
 templates = Jinja2Templates(directory="app/templates")
 
+# ---------------- Routers ----------------
 app.include_router(users.router, prefix="/api/users", tags=["users"])
 app.include_router(admin.router, prefix="/api/admin", tags=["admin"])
 app.include_router(predict.router, prefix="/api/predict", tags=["predict"])
 
-# Serve frontend files
-app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
 
-# Homepage → login page
+# ---------------- Frontend Path ----------------
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
+
+# serve frontend static files
+app.mount("/frontend", StaticFiles(directory=FRONTEND_DIR), name="frontend")
+
+
+# ---------------- Home Page ----------------
 @app.get("/")
 def home():
-    return FileResponse("frontend/login.html")
+    return FileResponse(os.path.join(FRONTEND_DIR, "login.html"))
+
+
+# ---------------- Health Check ----------------
+@app.get("/health")
+def health():
+    return {"status": "API running"}
