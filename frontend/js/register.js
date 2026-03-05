@@ -1,4 +1,4 @@
-const BASE = "http://127.0.0.1:9000";
+const BASE = "https://fetal-growth-api.onrender.com";
 
 document.addEventListener("DOMContentLoaded", () => {
 const form = document.getElementById("registerForm");
@@ -38,6 +38,7 @@ try {
   const data = await res.json();
   alert("Registration successful! Please log in.");
   window.location.href = "login.html";
+
 } catch (err) {
   console.error("Registration error:", err);
   errorMsg.textContent = "Registration failed — " + err.message;
@@ -45,7 +46,6 @@ try {
   btn.disabled = false;
   btn.textContent = "Register";
 }
-
 
 });
 });

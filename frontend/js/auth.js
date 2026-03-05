@@ -1,4 +1,4 @@
-const BASE = "http://127.0.0.1:9000";
+const BASE = "https://fetal-growth-api.onrender.com";
 
 function saveToken(token) {
 localStorage.setItem("fg_token", token);
@@ -21,9 +21,11 @@ if (getToken()) window.location.href = "upload.html";
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+
 if (document.getElementById("loginForm")) {
+
 const form = document.getElementById("loginForm");
-const email = document.getElementById("email"); // still using email input
+const email = document.getElementById("email");
 const password = document.getElementById("password");
 const err = document.getElementById("error");
 const demo = document.getElementById("demoBtn");
@@ -34,13 +36,16 @@ demo?.addEventListener("click", () => {
 });
 
 form.addEventListener("submit", async (e) => {
+
   e.preventDefault();
   err.textContent = "";
+
   const submitBtn = document.getElementById("submitBtn");
   submitBtn.disabled = true;
   submitBtn.textContent = "Signing in...";
 
   try {
+
     const res = await fetch(`${BASE}/api/users/login`, {
       method: "POST",
       body: new URLSearchParams({
@@ -55,27 +60,34 @@ form.addEventListener("submit", async (e) => {
     }
 
     const data = await res.json();
+
     if (!data.access_token && !data.token) {
       throw new Error("No token returned by server");
     }
 
     saveToken(data.access_token || data.token);
+
     alert("Login successful!");
     window.location.href = "upload.html";
+
   } catch (error) {
+
     console.error("Login error:", error);
     err.textContent = "Login failed — " + error.message;
+
   } finally {
+
     submitBtn.disabled = false;
     submitBtn.textContent = "Sign in";
+
   }
+
 });
-
-
 
 }
 
 const logoutBtns = document.querySelectorAll("#logout, #logoutBtn");
+
 logoutBtns.forEach((btn) =>
 btn.addEventListener("click", () => {
 clearToken();
@@ -85,8 +97,11 @@ window.location.href = "login.html";
 
 const goResults = document.getElementById("goResults");
 if (goResults) goResults.addEventListener("click", () => window.location.href = "results.html");
+
 const goUpload = document.getElementById("goUpload");
 if (goUpload) goUpload.addEventListener("click", () => window.location.href = "upload.html");
+
 const goLogin = document.getElementById("goLogin");
 if (goLogin) goLogin.addEventListener("click", () => window.location.href = "login.html");
+
 });

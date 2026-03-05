@@ -1,9 +1,8 @@
 /* ===============================
-   upload.js – FINAL WORKING VERSION
-   Backend expects:
-   - files (array[file])
-   - gestational_age (integer)
+   upload.js – DEPLOYMENT VERSION
 ================================ */
+
+const BASE = window.location.origin;
 
 const dropArea = document.getElementById("drop-area");
 const fileInput = document.getElementById("fileInput");
@@ -44,6 +43,7 @@ dropArea.addEventListener("dragleave", () => {
 dropArea.addEventListener("drop", (e) => {
   e.preventDefault();
   dropArea.classList.remove("drag-over");
+
   selectedFiles = Array.from(e.dataTransfer.files);
   showPreviews();
 });
@@ -52,19 +52,27 @@ dropArea.addEventListener("drop", (e) => {
    IMAGE PREVIEW
 ================================ */
 function showPreviews() {
+
   gallery.innerHTML = "";
+
   selectedFiles.forEach((file) => {
+
     const img = document.createElement("img");
+
     img.src = URL.createObjectURL(file);
     img.className = "thumb";
+
     gallery.appendChild(img);
+
   });
+
 }
 
 /* ===============================
-   RUN DETECTION (FIXED)
+   RUN DETECTION
 ================================ */
 runBtn.addEventListener("click", async () => {
+
   const gaWeeks = document.getElementById("gaWeeks").value;
 
   if (!gaWeeks) {
@@ -78,63 +86,85 @@ runBtn.addEventListener("click", async () => {
   }
 
   const token = localStorage.getItem("fg_token");
+
   if (!token) {
     alert("Session expired. Please login again.");
     window.location.href = "login.html";
     return;
   }
 
-  /* 🔴 IMPORTANT: MATCH BACKEND FIELD NAMES */
   const formData = new FormData();
+
   formData.append("gestational_age", parseInt(gaWeeks));
 
   selectedFiles.forEach((file) => {
-    formData.append("files", file);   // ✅ backend expects "files"
+    formData.append("files", file);
   });
 
   try {
-    const response = await fetch(
-      "http://127.0.0.1:9000/api/predict/api/predict/predict",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      }
-    );
+
+    const response = await fetch(`${BASE}/api/predict/predict`, {
+
+      method: "POST",
+
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+
+      body: formData,
+
+    });
 
     if (!response.ok) {
+
       const errText = await response.text();
+
       console.error("Backend error:", errText);
+
       throw new Error("Prediction failed");
+
     }
 
     const result = await response.json();
+
     localStorage.setItem("latestResult", JSON.stringify(result));
+
     alert("Detection completed successfully!");
+
     window.location.href = "results.html";
 
   } catch (error) {
+
     console.error("Error during detection:", error);
-    alert("Error during detection. Check backend logs.");
+
+    alert("Prediction failed. Please try again.");
+
   }
+
 });
 
 /* ===============================
    RESET
 ================================ */
 resetBtn.addEventListener("click", () => {
+
   selectedFiles = [];
+
   gallery.innerHTML = "";
+
   fileInput.value = "";
+
   document.getElementById("gaWeeks").value = "";
+
 });
 
 /* ===============================
    LOGOUT
 ================================ */
 logoutBtn.addEventListener("click", () => {
+
   localStorage.removeItem("fg_token");
+
   window.location.href = "login.html";
+
 });
