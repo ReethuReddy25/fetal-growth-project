@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
+#from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from app.routers import users, admin, predict
 from fastapi.middleware.cors import CORSMiddleware
@@ -25,7 +25,7 @@ app.include_router(users.router, prefix="/api/users", tags=["users"])
 app.include_router(admin.router, prefix="/api/admin", tags=["admin"])
 app.include_router(predict.router, prefix="/api/predict", tags=["predict"])
 
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
+#app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 @app.get("/")
 def index():
