@@ -1,5 +1,4 @@
 .venv
 __pycache__
 *.pyc
-*.pth
-*.zip
+*.zipgit add backend/app/models/best_state.pth
