@@ -103,17 +103,13 @@ runBtn.addEventListener("click", async () => {
 
   try {
 
-    const response = await fetch(`${BASE}/api/predict`, {
-
-      method: "POST",
-
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-
-      body: formData,
-
-    });
+    const response = await fetch(`${BASE}/api/predict/api/predict/predict`, {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+  body: formData,
+});
 
     if (!response.ok) {
 
