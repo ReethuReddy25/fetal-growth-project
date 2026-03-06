@@ -19,3 +19,4 @@ scipy
 python-dotenv
 opencv-python-headless
 gunicorn
+psycopg2-binary
