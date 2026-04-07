@@ -9,7 +9,7 @@ from app.services.dl_model import FetalGrowthModel
 from app.utils.growth_standards import compute_z_score, classify_growth
 from app.config import MODEL_PATH
 
-router = APIRouter(prefix="/api/predict", tags=["Prediction"])
+router = APIRouter(tags=["Prediction"])
 
 # ✅ Load model once
 model = FetalGrowthModel(MODEL_PATH)
