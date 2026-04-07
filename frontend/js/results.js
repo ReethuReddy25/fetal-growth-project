@@ -1,3 +1,4 @@
+console.log("REGISTER JS LOADED");
 document.addEventListener("DOMContentLoaded", () => {
 
   const data = JSON.parse(localStorage.getItem("latestResult"));
