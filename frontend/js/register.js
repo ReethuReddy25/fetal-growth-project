@@ -1,4 +1,4 @@
-const BASE = "https://fetal-growth-api.onrender.com";
+const BASE = window.location.origin;
 
 document.addEventListener("DOMContentLoaded", () => {
 const form = document.getElementById("registerForm");

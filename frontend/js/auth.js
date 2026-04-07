@@ -1,4 +1,4 @@
-const BASE = "https://fetal-growth-api.onrender.com";
+const BASE = window.location.origin;
 
 function saveToken(token) {
 localStorage.setItem("fg_token", token);
