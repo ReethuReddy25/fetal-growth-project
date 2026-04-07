@@ -30,8 +30,9 @@ app.include_router(predict.router, prefix="/api/predict", tags=["predict"])
 
 
 # ---------------- Frontend Path ----------------
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
+print("FRONTEND_DIR:", FRONTEND_DIR)
 
 # serve frontend static files
 app.mount("/frontend", StaticFiles(directory=FRONTEND_DIR), name="frontend")

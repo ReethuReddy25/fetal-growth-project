@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fetal Growth — Login</title>
+  <link rel="stylesheet" href="/frontend/styles.css">
+</head>
+<body>
+  <div class="page-center">
+    <div class="card auth-card">
+      <img src="assets/logo.png" alt="logo" class="logo" onerror="this.style.display='none'">
+      <h1>Sign in</h1>
+      <p class="muted">Sign in to upload ultrasound images and get HC predictions</p>
+
+      <form id="loginForm" class="form">
+        <label>Email
+          <input type="email" id="email" required placeholder="doctor@example.com">
+        </label>
+
+        <label>Password
+          <input type="password" id="password" required placeholder="your password">
+        </label>
+
+        <div class="form-row">
+          <button type="submit" id="submitBtn" class="btn">Sign in</button>
+          <button type="button" id="demoBtn" class="btn btn-ghost">Use demo creds</button>
+        </div>
+
+        <div id="error" class="error" aria-live="polite"></div>
+      </form>
+
+      <p class="foot muted">If your backend uses a different login endpoint update <code>js/auth.js</code>.</p>
+    </div>
+  </div>
+
+  <script src="/frontend/js/auth.js"></script>
+</body>
+</html>
