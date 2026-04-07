@@ -30,10 +30,14 @@
         <div id="error" class="error" aria-live="polite"></div>
       </form>
 
-      <p class="foot muted">If your backend uses a different login endpoint update <code>js/auth.js</code>.</p>
+      <p class="foot muted">
+        Don’t have an account? 
+        <a href="/register">Register</a> <!-- ✅ Added -->
+      </p>
     </div>
   </div>
 
-  <script src="/frontend/js/auth.js"></script>
+  <!-- ✅ FIX: added defer -->
+  <script src="/frontend/js/auth.js" defer></script>
 </body>
 </html>

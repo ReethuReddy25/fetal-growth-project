@@ -48,3 +48,18 @@ def home():
 @app.get("/health")
 def health():
     return {"status": "API running"}
+@app.get("/register")
+def register_page():
+    return FileResponse(os.path.join(FRONTEND_DIR, "register.html"))
+
+@app.get("/login")
+def login_page():
+    return FileResponse(os.path.join(FRONTEND_DIR, "login.html"))
+
+@app.get("/upload")
+def upload_page():
+    return FileResponse(os.path.join(FRONTEND_DIR, "upload.html"))
+
+@app.get("/results")
+def results_page():
+    return FileResponse(os.path.join(FRONTEND_DIR, "results.html"))

@@ -52,20 +52,14 @@ dropArea.addEventListener("drop", (e) => {
    IMAGE PREVIEW
 ================================ */
 function showPreviews() {
-
   gallery.innerHTML = "";
 
   selectedFiles.forEach((file) => {
-
     const img = document.createElement("img");
-
     img.src = URL.createObjectURL(file);
     img.className = "thumb";
-
     gallery.appendChild(img);
-
   });
-
 }
 
 /* ===============================
@@ -89,7 +83,7 @@ runBtn.addEventListener("click", async () => {
 
   if (!token) {
     alert("Session expired. Please login again.");
-    window.location.href = "login.html";
+    window.location.href = "/login";   // ✅ FIXED
     return;
   }
 
@@ -104,21 +98,17 @@ runBtn.addEventListener("click", async () => {
   try {
 
     const response = await fetch(`${BASE}/api/predict/predict`, {
-  method: "POST",
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-  body: formData,
-});
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
 
     if (!response.ok) {
-
       const errText = await response.text();
-
       console.error("Backend error:", errText);
-
       throw new Error("Prediction failed");
-
     }
 
     const result = await response.json();
@@ -127,14 +117,11 @@ runBtn.addEventListener("click", async () => {
 
     alert("Detection completed successfully!");
 
-    window.location.href = "results.html";
+    window.location.href = "/results";   // ✅ FIXED
 
   } catch (error) {
-
     console.error("Error during detection:", error);
-
     alert("Prediction failed. Please try again.");
-
   }
 
 });
@@ -143,24 +130,16 @@ runBtn.addEventListener("click", async () => {
    RESET
 ================================ */
 resetBtn.addEventListener("click", () => {
-
   selectedFiles = [];
-
   gallery.innerHTML = "";
-
   fileInput.value = "";
-
   document.getElementById("gaWeeks").value = "";
-
 });
 
 /* ===============================
    LOGOUT
 ================================ */
 logoutBtn.addEventListener("click", () => {
-
   localStorage.removeItem("fg_token");
-
-  window.location.href = "login.html";
-
+  window.location.href = "/login";   // ✅ FIXED
 });
