@@ -30,7 +30,7 @@ app.include_router(predict.router, prefix="/api/predict", tags=["predict"])
 
 
 # ---------------- Frontend Path ----------------
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))   # points to app/
 FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
 print("FRONTEND_DIR:", FRONTEND_DIR)
 
