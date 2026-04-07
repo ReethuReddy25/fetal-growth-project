@@ -40,7 +40,7 @@ app.mount("/frontend", StaticFiles(directory=FRONTEND_DIR), name="frontend")
 # ---------------- Home Page ----------------
 @app.get("/")
 def home():
-    return FileResponse(os.path.join(FRONTEND_DIR, "login.html"))
+    return FileResponse(os.path.join(FRONTEND_DIR, "register.html"))
 
 
 # ---------------- Health Check ----------------
