@@ -12,17 +12,30 @@ router = APIRouter()
 Base.metadata.create_all(bind=engine)
 
 
+# ---------------- DB Dependency ----------------
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
 # ✅ Registration endpoint
 @router.post("/register", response_model=UserOut)
-def register(user_in: UserCreate):
-    db: Session = SessionLocal()
-    existing_user = db.query(User).filter(User.email == user_in.email).first()
+def register(user_in: UserCreate, db: Session = Depends(get_db)):
+
+    # 🔥 Normalize email (VERY IMPORTANT)
+    email = user_in.email.strip().lower()
+
+    # Check if user already exists
+    existing_user = db.query(User).filter(User.email == email).first()
     if existing_user:
         raise HTTPException(status_code=400, detail="Email already registered")
 
-    # Default role = "doctor"
+    # Create new user
     new_user = User(
-        email=user_in.email,
+        email=email,
         password_hash=hash_password(user_in.password),
         role="doctor"
     )
@@ -30,17 +43,26 @@ def register(user_in: UserCreate):
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
+
     return new_user
 
 
 # ✅ Login endpoint
 @router.post("/login")
-def login(form_data: OAuth2PasswordRequestForm = Depends()):
-    db: Session = SessionLocal()
-    user = db.query(User).filter(User.email == form_data.username).first()
+def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+
+    # 🔥 Normalize email
+    email = form_data.username.strip().lower()
+
+    user = db.query(User).filter(User.email == email).first()
 
     if not user or not verify_password(form_data.password, user.password_hash):
         raise HTTPException(status_code=400, detail="Incorrect credentials")
 
     token = create_access_token(user.email, user.role)
-    return {"access_token": token, "token_type": "bearer", "role": user.role}
+
+    return {
+        "access_token": token,
+        "token_type": "bearer",
+        "role": user.role
+    }
